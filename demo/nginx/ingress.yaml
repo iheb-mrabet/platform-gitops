@@ -12,7 +12,7 @@ spec:
         - test.20.127.32.19.nip.io
       secretName: demo-nginx-tls
   rules:
-    - host: test.<PUBLIC_IP>.nip.io
+    - host: test.20.127.32.19.nip.io
       http:
         paths:
           - path: /
