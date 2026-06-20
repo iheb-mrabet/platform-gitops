@@ -1,0 +1,58 @@
+﻿apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: azure-postgresql-basic
+  labels:
+    provider: azure
+    service: postgresql
+spec:
+  compositeTypeRef:
+    apiVersion: platform.example.org/v1alpha1
+    kind: XPostgreSQLInstance
+
+  mode: Pipeline
+  pipeline:
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: postgres-flexible-server
+            base:
+              apiVersion: dbforpostgresql.azure.upbound.io/v1beta1
+              kind: FlexibleServer
+              metadata:
+                labels:
+                  platform.example.org/managed-by: crossplane
+              spec:
+                forProvider:
+                  version: "16"
+                  administratorLogin: platformadmin
+                  administratorPasswordSecretRef:
+                    namespace: crossplane-system
+                    name: postgres-admin-password
+                    key: password
+                  skuName: B_Standard_B1ms
+                  storageMb: 32768
+                  backupRetentionDays: 7
+                  geoRedundantBackupEnabled: false
+                  publicNetworkAccessEnabled: true
+                providerConfigRef:
+                  name: default
+            patches:
+              - type: FromCompositeFieldPath
+                fromFieldPath: spec.parameters.location
+                toFieldPath: spec.forProvider.location
+              - type: FromCompositeFieldPath
+                fromFieldPath: spec.parameters.resourceGroupName
+                toFieldPath: spec.forProvider.resourceGroupName
+              - type: FromCompositeFieldPath
+                fromFieldPath: spec.parameters.storageGB
+                toFieldPath: spec.forProvider.storageMb
+                transforms:
+                 - type: math
+                   math:
+                     type: Multiply
+                     multiply: 1024

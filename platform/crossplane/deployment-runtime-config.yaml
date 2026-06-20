@@ -1,0 +1,18 @@
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: azure-workload-identity
+spec:
+  serviceAccountTemplate:
+    metadata:
+      annotations:
+        # Injection automatique de votre Crossplane Client ID
+        azure.workload.identity/client-id: "c6025284-73fa-467b-ab20-67452320ec04"
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        metadata:
+          labels:
+            # Active le webhook de mutation Azure Workload Identity sur le Pod
+            azure.workload.identity/use: "true"

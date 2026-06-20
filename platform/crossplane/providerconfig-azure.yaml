@@ -1,0 +1,10 @@
+﻿apiVersion: azure.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  subscriptionID: "b175c973-e29e-4e04-ac0b-6be778583d3a"
+  tenantID: "a9c01dab-8fdc-4ed3-ba26-0172bff8828c"
+  clientID: "c6025284-73fa-467b-ab20-67452320ec04"
+  credentials:
+    source: OIDCTokenFile
