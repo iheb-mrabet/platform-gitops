@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-beta-api
+  labels:
+    app.kubernetes.io/name: team-beta-api
+    platform.example.org/created-via: backstage

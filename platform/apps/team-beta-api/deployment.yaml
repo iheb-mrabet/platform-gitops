@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team-beta-api
+  namespace: team-beta-api
+  labels:
+    app: team-beta-api
+    backstage.io/kubernetes-id: team-beta-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: team-beta-api
+  template:
+    metadata:
+      labels:
+        app: team-beta-api
+        backstage.io/kubernetes-id: team-beta-api
+    spec:
+      containers:
+        - name: team-beta-api
+          image: ihebplatacr2026.azurecr.io/team-beta-api:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 20

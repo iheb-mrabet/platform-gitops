@@ -1,0 +1,10 @@
+apiVersion: platform.example.org/v1alpha1
+kind: PostgreSQLInstance
+metadata:
+  name: team-beta-api-db
+  namespace: team-beta-api
+spec:
+  parameters:
+    storageGB: 32
+    location: northeurope
+    resourceGroupName: platform-eng-rg

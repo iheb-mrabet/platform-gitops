@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: team-beta-api
+  namespace: team-beta-api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - team-beta-api.20-127-32-19.nip.io
+      secretName: team-beta-api-tls
+  rules:
+    - host: team-beta-api.20-127-32-19.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: team-beta-api
+                port:
+                  number: 80
