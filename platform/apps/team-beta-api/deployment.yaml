@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: team-beta-api
-          image: ihebplatacr2026.azurecr.io/team-beta-api:dev
+          image: ihebplatacr2026.azurecr.io/team-beta-api:6054f4f308c12149aad41e6da7e09dd682761637
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
